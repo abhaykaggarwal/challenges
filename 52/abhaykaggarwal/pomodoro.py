@@ -21,7 +21,7 @@ def main():
 if __name__ == "__main__":
     print("--WELCOME TO THE POMODORO TIMER--")
 
-    timer_string = input('Duration for the timer:')
+    timer_string = input('Duration for the timer in minutes:')
     try:
         timer_dur = int(timer_string)
     except ValueError:
@@ -31,7 +31,7 @@ if __name__ == "__main__":
         print("RESTART PROGRAM")
         sys.exit(1)
 
-    break_string = input('Duration for the break:')
+    break_string = input('Duration for the break in minutes:')
     try:
         break_dur = int(break_string)
     except ValueError:
@@ -51,5 +51,7 @@ if __name__ == "__main__":
         print("RESTART PROGRAM")
         sys.exit(1)
 
+
+    print("--TIMER WILL START NOW--")
     main()
 
