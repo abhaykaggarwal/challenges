@@ -15,20 +15,19 @@ def timer(min_dur):
 
     secs_dur = min_dur * 60
     while secs_dur >= 0:
-        print("Pomodoro Time Remaining: {}".format(timedelta(seconds=secs_dur)), end="\r")
+        print("Pomodoro Time Remaining: {}\r".format(timedelta(seconds=secs_dur)), end="")
         time.sleep(1)
         secs_dur = secs_dur - 1
-
     print("--TIME IS UP, TAKE A BREAK--")
 
 def break_timer(b_dur):
 
     secs_dur = b_dur * 60
     while secs_dur >= 0:
-        print("Break Time Remaining: {}".format(timedelta(seconds=secs_dur)), end="\r")
+        print("Break Time Remaining: {}\r".format(timedelta(seconds=secs_dur)), end="")
         time.sleep(1)
         secs_dur = secs_dur - 1
-    print("--BREAK TIME IS UP, POMODORO WILL RESTART--", end='\r')
+    print("--BREAK TIME IS UP, POMODORO WILL RESTART--")
 
 
 def main():
@@ -43,6 +42,8 @@ def main():
     time.sleep(1)
     print("--TIMER AND BREAKS NOW OVER, ENJOY THE REST OF YOUR DAY--")
     sys.exit(0)
+
+
 
 if __name__ == "__main__":
 
