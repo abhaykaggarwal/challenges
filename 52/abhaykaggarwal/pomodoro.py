@@ -3,7 +3,6 @@
     CREDITS:
     1. https://stackabuse.com/getting-user-input-in-python/"""
 
-from datetime import datetime
 from datetime import timedelta
 import time
 import sys
@@ -16,19 +15,20 @@ def timer(min_dur):
 
     secs_dur = min_dur * 60
     while secs_dur >= 0:
-        print("Pomodoro Time Remaining: %s" % str(timedelta(seconds=secs_dur)), end = "\r")
+        print("Pomodoro Time Remaining: {}".format(timedelta(seconds=secs_dur)), end="\r")
         time.sleep(1)
         secs_dur = secs_dur - 1
+
     print("--TIME IS UP, TAKE A BREAK--")
 
 def break_timer(b_dur):
 
     secs_dur = b_dur * 60
     while secs_dur >= 0:
-        print("Break Time Remaining: %s" % str(timedelta(seconds=secs_dur)), end = "\r")
+        print("Break Time Remaining: {}".format(timedelta(seconds=secs_dur)), end="\r")
         time.sleep(1)
         secs_dur = secs_dur - 1
-    print("--BREAK TIME IS UP, POMODORO WILL RESTART--")
+    print("--BREAK TIME IS UP, POMODORO WILL RESTART--", end='\r')
 
 
 def main():
@@ -38,9 +38,11 @@ def main():
         time.sleep(2)
         break_timer(break_dur)
         time.sleep(2)
-        use_iter =- 1
+        use_iter = use_iter - 1
     timer(timer_dur)
-    print("--TIMER AND BREAKS NOW OVER, ENJOY")
+    time.sleep(1)
+    print("--TIMER AND BREAKS NOW OVER, ENJOY THE REST OF YOUR DAY--")
+    sys.exit(0)
 
 if __name__ == "__main__":
 
