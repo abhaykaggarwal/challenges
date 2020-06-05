@@ -5,22 +5,46 @@
 
 from datetime import datetime
 from datetime import timedelta
+import time
 import sys
 
 timer_dur = None
 break_dur = None
 num_iter = None
 
+def timer(min_dur):
+
+    secs_dur = min_dur * 60
+    while secs_dur >= 0:
+        print("Pomodoro Time Remaining: %s" % str(timedelta(seconds=secs_dur)), end = "\r")
+        time.sleep(1)
+        secs_dur = secs_dur - 1
+    print("--TIME IS UP, TAKE A BREAK--")
+
+def break_timer(b_dur):
+
+    secs_dur = b_dur * 60
+    while secs_dur >= 0:
+        print("Break Time Remaining: %s" % str(timedelta(seconds=secs_dur)), end = "\r")
+        time.sleep(1)
+        secs_dur = secs_dur - 1
+    print("--BREAK TIME IS UP, POMODORO WILL RESTART--")
+
 
 def main():
-    print(timer_dur)
-
-
-
+    use_iter = num_iter
+    while use_iter > 1:
+        timer(timer_dur)
+        time.sleep(2)
+        break_timer(break_dur)
+        time.sleep(2)
+        use_iter =- 1
+    timer(timer_dur)
+    print("--TIMER AND BREAKS NOW OVER, ENJOY")
 
 if __name__ == "__main__":
-    print("--WELCOME TO THE POMODORO TIMER--")
 
+    print("--WELCOME TO THE POMODORO TIMER--")
     timer_string = input('Duration for the timer in minutes:')
     try:
         timer_dur = int(timer_string)
@@ -50,7 +74,6 @@ if __name__ == "__main__":
             + "Better luck next time!")
         print("RESTART PROGRAM")
         sys.exit(1)
-
 
     print("--TIMER WILL START NOW--")
     main()
