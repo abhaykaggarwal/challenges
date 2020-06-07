@@ -1,5 +1,6 @@
 import csv
 from collections import defaultdict, namedtuple
+from statistics import mean
 
 MOVIE_DATA = 'movie_metadata.csv'
 NUM_TOP_DIRECTORS = 20
@@ -9,21 +10,39 @@ MIN_YEAR = 1960
 Movie = namedtuple('Movie', 'title year score')
 
 
-def get_movies_by_director():
+def get_movies_by_director(data= MOVIE_DATA):
     '''Extracts all movies from csv and stores them in a dictionary
     where keys are directors, and values is a list of movies (named tuples)'''
-    pass
+    directors = defaultdict(list)
+    with open(data, encoding='utf-8') as f:
+        for line in csv.DictReader(f):
+            try:
+                director = line['director_name']
+                movie = line['movie_title'].replace('\xa0', '')
+                year = int(line['title_year'])
+                score = float(line['imdb_score'])
+            except ValueError:
+                continue
+
+            m = Movie(title=movie, year=year, score=score)
+            directors[director].append(m)
+
+    return directors
 
 
 def get_average_scores(directors):
-    '''Filter directors with < MIN_MOVIES and calculate averge score'''
+    '''Filter directors with < MIN_MOVIES and calculate average score'''
     pass
 
 
 def _calc_mean(movies):
     '''Helper method to calculate mean of list of Movie namedtuples'''
-    pass
+    ratings_list = []
+    for mov_tuple in movies:
+        ratings_list.append(mov_tuple.score)
 
+    ratings_mean = mean(ratings_list)
+    return ratings_mean
 
 def print_results(directors):
     '''Print directors ordered by highest average rating. For each director
