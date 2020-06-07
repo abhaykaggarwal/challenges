@@ -1,6 +1,7 @@
 import csv
-from collections import defaultdict, namedtuple
+from collections import defaultdict, namedtuple, OrderedDict
 from statistics import mean
+import operator
 
 MOVIE_DATA = 'movie_metadata.csv'
 NUM_TOP_DIRECTORS = 20
@@ -32,8 +33,16 @@ def get_movies_by_director(data= MOVIE_DATA):
 
 def get_average_scores(directors):
     '''Filter directors with < MIN_MOVIES and calculate average score'''
-    pass
+    reduced_directors = {k: v for k, v in directors.items() if len(v) >= MIN_MOVIES}
+    new_dict = {}
+    for director_n in reduced_directors:
+        movies_list = reduced_directors[director_n]
+        mean_score = _calc_mean(movies_list)
+        new_dict[director_n] = mean_score
 
+    new_dict = sorted(new_dict.items(), key=operator.itemgetter(1), reverse=True)
+
+    return new_dict
 
 def _calc_mean(movies):
     '''Helper method to calculate mean of list of Movie namedtuples'''
@@ -42,7 +51,7 @@ def _calc_mean(movies):
         ratings_list.append(mov_tuple.score)
 
     ratings_mean = mean(ratings_list)
-    return ratings_mean
+    return round(ratings_mean,1)
 
 def print_results(directors):
     '''Print directors ordered by highest average rating. For each director
@@ -52,12 +61,30 @@ def print_results(directors):
     fmt_movie_entry = '{year}] {title:<50} {score}'
     sep_line = '-' * 60
 
+    score_dict = get_average_scores(directors)
+    score_list_unsorted = list(score_dict)
+    score_list = sorted(score_list_unsorted, key=lambda tup: tup[1], reverse=True)
+
+    for i in range(NUM_TOP_DIRECTORS):
+
+        dir_name = score_list[i][0]
+        dir_score = score_list[i][1]
+
+        print(fmt_director_entry.format(counter=i+1, director=dir_name, avg=dir_score))
+        print(sep_line)
+
+        tuple_list = sorted(directors[dir_name], key=operator.attrgetter('score'), reverse=True)
+
+        for mov in tuple_list:
+            print(fmt_movie_entry.format(year=mov.year, title=mov.title, score=mov.score))
+
+        print("\n")
+
 
 def main():
     '''This is a template, feel free to structure your code differently.
     We wrote some tests based on our solution: test_directors.py'''
     directors = get_movies_by_director()
-    directors = get_average_scores(directors)
     print_results(directors)
 
 
